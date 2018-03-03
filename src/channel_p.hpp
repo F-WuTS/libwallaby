@@ -11,7 +11,6 @@
 #include "wallaby/camera.hpp"
 #include <opencv2/core/core.hpp>
 
-#include <zbar.h>
 
 namespace Private
 {
@@ -23,22 +22,9 @@ namespace Private
       HsvChannelImpl();
       virtual void update(const cv::Mat &image);
       virtual ::Camera::ObjectVector findObjects(const Config &config);
-      
-    private:
-      cv::Mat m_image;
-    };
-    
-    class BarcodeChannelImpl : public ::Camera::ChannelImpl
-    {
-    public:
-      BarcodeChannelImpl();
-      virtual void update(const cv::Mat &image);
-      virtual ::Camera::ObjectVector findObjects(const Config &config);
 
     private:
-      cv::Mat m_gray;
-      zbar::Image m_image;
-      zbar::ImageScanner m_scanner;
+      cv::Mat m_image;
     };
 
     class ArucoChannelImpl : public ::Camera::ChannelImpl

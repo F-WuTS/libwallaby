@@ -96,8 +96,7 @@ ObjectVector ChannelImpl::objects(const Config &config) {
 }
 
 std::map<std::string, ChannelImpl *> ChannelImplManager::m_channelImpls = {
-  {"hsv", new Private::Camera::HsvChannelImpl()}, 
-  {"qr", new Private::Camera::BarcodeChannelImpl()},
+  {"hsv", new Private::Camera::HsvChannelImpl()},
   {"aruco", new Private::Camera::ArucoChannelImpl()}
 };
 
