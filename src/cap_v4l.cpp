@@ -1734,14 +1734,6 @@ static inline cv::String capPropertyName(int prop)
         return "autofocus";
     case cv::CAP_PROP_WHITE_BALANCE_BLUE_U:
         return "white_balance_blue_u";
-    case cv::CAP_PROP_SAR_NUM:
-        return "sar_num";
-    case cv::CAP_PROP_SAR_DEN:
-        return "sar_den";
-    case CAP_PROP_AUTO_WB:
-        return "auto wb";
-    case CAP_PROP_WB_TEMPERATURE:
-        return "wb temperature";
     default:
         return "unknown";
     }
@@ -1818,14 +1810,6 @@ static inline int capPropertyToV4L2(int prop)
         return -1;
     case cv::CAP_PROP_AUTOFOCUS:
         return V4L2_CID_FOCUS_AUTO;
-    case cv::CAP_PROP_SAR_NUM:
-        return V4L2_CID_MPEG_VIDEO_H264_VUI_EXT_SAR_HEIGHT;
-    case cv::CAP_PROP_SAR_DEN:
-        return V4L2_CID_MPEG_VIDEO_H264_VUI_EXT_SAR_WIDTH;
-    case CAP_PROP_AUTO_WB:
-        return V4L2_CID_AUTO_WHITE_BALANCE;
-    case CAP_PROP_WB_TEMPERATURE:
-        return V4L2_CID_WHITE_BALANCE_TEMPERATURE;
     default:
         break;
     }
@@ -1866,8 +1850,6 @@ bool CvCaptureCAM_V4L_K::controlInfo(int property_id, __u32 &_v4l2id, cv::Range 
     if (normalizePropRange) {
         switch(property_id)
         {
-        case CAP_PROP_WB_TEMPERATURE:
-        case CAP_PROP_AUTO_WB:
         case CAP_PROP_AUTOFOCUS:
             range = Range(0, 1); // do not convert
             break;
@@ -1948,8 +1930,6 @@ double CvCaptureCAM_V4L_K::getProperty(int property_id) //const
             return 0;
 
         return 1000 * timestamp.tv_sec + ((double)timestamp.tv_usec) / 1000;
-    case cv::CAP_PROP_CHANNEL:
-        return channelNumber;
     default:
     {
         cv::Range range;
@@ -2031,24 +2011,6 @@ bool CvCaptureCAM_V4L_K::setProperty( int property_id, double _value )
         }
         bufferSize = value;
         return v4l2_reset();
-    case cv::CAP_PROP_CHANNEL:
-    {
-        if (value < 0) {
-            channelNumber = -1;
-            return true;
-        }
-        if (channelNumber == value)
-            return true;
-
-        int old_channel = channelNumber;
-        channelNumber = value;
-        if (v4l2_reset())
-            return true;
-
-        channelNumber = old_channel;
-        v4l2_reset();
-        return false;
-    }
     default:
     {
         cv::Range range;

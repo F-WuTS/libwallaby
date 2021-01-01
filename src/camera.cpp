@@ -6,7 +6,6 @@
  */
 
 
-#include "precomp.hpp"
 #include "wallaby/camera.hpp"
 #include "channel_p.hpp"
 #include "wallaby/camera.h"
@@ -21,7 +20,6 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/imgproc/types_c.h>
 #include <opencv2/imgproc/imgproc_c.h>
-#include <opencv2/videoio/legacy/constants_c.h>
 
 #ifndef NOT_A_WALLABY
 #include <errno.h>
